@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/frontend_app/package.json",
+      "use": "@vercel/static-build",
+      "config": { 
+        "distDir": "build",
+        "buildCommand": "cd frontend/frontend_app && pnpm install && pnpm run build"
+       }
+    },
+    {
+      "src": "backend/backend_app/src/main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/backend_app/src/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/frontend_app/build/$1"
+    }
+  ]
+}
+
